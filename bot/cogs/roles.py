@@ -27,6 +27,7 @@ class Roles(commands.Cog):
         
         string = f"React with the following emojis to get the following roles!\n{emoji} - {role.mention}"
         msg = await interaction.channel.send(view=EmbedView(myText=string))
+        await msg.add_reaction(emoji)
 
         try:
             await db.connect()
@@ -69,6 +70,7 @@ class Roles(commands.Cog):
         string += f"\n{emoji} - {role.mention}"
 
         await msg.edit(view=EmbedView(myText=string))
+        await msg.add_reaction(emoji)
 
         try:
             await db.connect()
