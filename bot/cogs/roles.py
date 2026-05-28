@@ -110,28 +110,28 @@ class Roles(commands.Cog):
         return await interaction.response.send_message(view=EmbedView(myText="Success!"),ephemeral=True)
     
 
-    async def react(self, reaction: discord.Reaction, user: discord.Member):
+    async def react(self, payload: discord.RawReactionActionEvent):
         try:
             await db.connect()
-            record = await db.execute("SELECT * FROM messages WHERE guild_id = $1;",reaction.message.guild.id)
+            record = await db.execute("SELECT * FROM messages WHERE guild_id = $1;", payload.guild_id)
             await db.close()
         except:
             return
         
-        if reaction.message.id != record[0]["message_id"]:
+        if payload.message_id != record[0]["message_id"]:
             return
         
         index = -1
-        for i in range (0,len(record[0]["emojis"])):
-            if record[0]["emojis"][i] == reaction.emoji:
+        for i in range(len(record[0]["emojis"])):
+            if record[0]["emojis"][i] == payload.emoji.name:
                 index = i
                 break
         if index == -1:
             return
         
         try:
-            role = reaction.message.guild.get_role(record[0]["role_ids"][index])
-            return await user.add_roles(role)
+            role = payload.member.guild.get_role(record[0]["role_ids"][index])
+            return await payload.member.add_roles(role)
         except:
             return
     

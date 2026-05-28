@@ -38,8 +38,8 @@ class MyClient(commands.Bot):
         print(f'Logged in as {self.user} (ID: {self.user.id})') # type: ignore
         print('------')
 
-    async def on_reaction_add(self, reaction: discord.Reaction, user: discord.Member):
-        return await self.role_cog.react(reaction,user)
+    async def on_raw_reaction_add(self, payload: discord.RawReactionActionEvent):
+        return await self.role_cog.react(payload)
 
 
 client = MyClient(intents=intents)
