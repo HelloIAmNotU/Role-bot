@@ -120,7 +120,7 @@ class Roles(commands.Cog):
         except:
             return
         
-        if payload.message_id != record[0]["message_id"]:
+        if len(record) == 0 or (payload.message_id != record[0]["message_id"]) or payload.member.bot:
             return
         
         index = -1
