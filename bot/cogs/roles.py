@@ -56,9 +56,6 @@ class Roles(commands.Cog):
         
         roles = record[0]["role_ids"]
         emojis = record[0]["emojis"]
-
-        if len(roles) >= 9:
-            return await interaction.response.send_message(view=EmbedView(myText="You cannot add more roles to this message."),ephemeral=True)
         
         if emoji in emojis:
             return await interaction.response.send_message(view=EmbedView(myText="This emoji is already used."),ephemeral=True)
